@@ -1,0 +1,135 @@
+call plug#begin('~/.vim/plugged')
+" Plugin para cerrar automáticamente (), [], {}, '', ""
+Plug 'Raimondi/delimitMate'
+" Plugin para colorear paréntesis, corchetes y llaves por nivel
+Plug 'luochen1990/rainbow'
+" Plugin de temas
+Plug 'morhetz/gruvbox'
+Plug 'dracula/vim', { 'as': 'dracula' }
+Plug 'arcticicestudio/nord-vim'
+Plug 'sickill/vim-monokai'
+Plug 'joshdick/onedark.vim'
+"para black
+Plug 'psf/black', { 'branch': 'stable' }
+
+Plug 'dense-analysis/ale'
+
+call plug#end()
+" Configuración de esquemas de color
+set background=dark
+colorscheme nord
+" Cambia 'nord gruvbox dracula monokai onedark' por el esquema que prefieras
+
+" Configuraciones adicionales
+set number
+syntax on
+set hlsearch
+set mouse=a
+set completeopt=menuone,noinsert,noselect
+set tabstop=4
+set shiftwidth=4
+set expandtab
+
+" Resaltar la línea del cursor
+set cursorline
+" Personalizar el color de la línea del cursor
+highlight CursorLine term=bold cterm=bold guibg=Grey40
+
+" Ejecutar Black al guardar archivos Python sin notificaciones
+autocmd BufWritePre *.py silent! execute ':silent! %!black -q -'
+
+
+" Configuración de rainbow
+let g:rainbow_active = 1
+
+
+" Configuración para archivos .txt
+autocmd BufNewFile,BufRead *.txt set syntax=txt
+" Definir reglas de resaltado de sintaxis para archivos .txt
+augroup txt_syntax
+  autocmd!
+  " Resaltar palabras clave como TODO y FIXME
+  autocmd Syntax txt syntax match TextTodo "\<TODO\>"
+  autocmd Syntax txt highlight TextTodo ctermfg=yellow guifg=yellow
+  autocmd Syntax txt syntax match TextFixme "\<FIXME\>"
+  autocmd Syntax txt highlight TextFixme ctermfg=red guifg=red
+  " Resaltar cadenas de texto entre comillas
+  autocmd Syntax txt syntax match TextString "\"[^\"]*\""
+  autocmd Syntax txt highlight TextString ctermfg=green guifg=green
+  " Resaltar números
+  autocmd Syntax txt syntax match TextNumber "\<[0-9]\+\>"
+  autocmd Syntax txt highlight TextNumber ctermfg=cyan guifg=cyan
+  " Resaltar comentarios (líneas que comienzan con #)
+  autocmd Syntax txt syntax match TextComment "^#.*"
+  autocmd Syntax txt highlight TextComment ctermfg=blue guifg=blue
+  " Resaltar direcciones de correo electrónico
+  autocmd Syntax txt syntax match TextEmail "\<[a-zA-Z0-9._%+-]\+@[a-zA-Z0-9.-]\+\.[a-zA-Z]\{2,}\>"
+  autocmd Syntax txt highlight TextEmail ctermfg=magenta guifg=magenta
+augroup END
+
+
+
+set nobackup
+" No crear archivos de respaldo
+set nowritebackup
+" No crear respaldo al guardar
+set noswapfile
+" No crear archivo de intercambio
+
+set scroll=3
+" Número de líneas para desplazar con Ctrl-U y Ctrl-D
+set sidescroll=0
+" Número de columnas para desplazar horizontalmente
+
+" Aumentar la velocidad de desplazamiento en Vim
+set updatetime=300
+" Reduce el tiempo de actualización para una respuesta más rápida
+set lazyredraw
+" Evita el redibujado de la pantalla mientras se mueve el cursor
+
+" Ajustar el tamaño del buffer para una respuesta más rápida
+set ttyfast
+" Optimiza el rendimiento del terminal
+" Ajustar la cantidad de líneas de desplazamiento para mejor velocidad
+set scrolljump=3
+" Cuántas líneas se saltan cuando se usa Ctrl-U/D
+set scrolloff=0
+" Cuántas líneas mantener visibles alrededor del cursor
+
+
+
+
+
+" Habilitar ALE para linting y formateo
+let g:ale_enabled = 1
+
+" Configuración para formateo automático al guardar
+let g:ale_fix_on_save = 1
+
+" Configurar formateadores con Prettier
+let g:ale_fixers = {
+\   'javascript': ['prettier'],
+\   'json': ['prettier'],
+\   'css': ['prettier'],
+\   'html': ['prettier'],
+\   'latex': ['prettier'],
+\}
+
+" Deshabilitar linters específicos si no los quieres ejecutar
+let g:ale_javascript_eslint_enabled = 0  " Deshabilitar ESLint para JavaScript
+let g:ale_python_pylint_enabled = 0     " Deshabilitar Pylint para Python
+let g:ale_latex_chktex_enabled = 0      " Deshabilitar CheckTeX para LaTeX
+let g:ale_json_jsonlint_enabled = 0     " Deshabilitar jsonlint para JSON
+
+" Configurar opciones para el linting, si las necesitas
+" Para JavaScript (ESLint) - Deshabilitar reglas específicas
+let g:ale_javascript_eslint_options = '--quiet --no-ignore --rule "no-const-assign: off" --rule "camelcase: off"'
+
+" Para Python (Pylint) - Deshabilitar advertencias
+let g:ale_python_pylint_options = '--disable=all --enable=fixme'
+
+" Para LaTeX (ChkTeX) - Deshabilitar advertencias de formato
+let g:ale_latex_chktex_options = '--no-chktex'
+
+" Para JSON (jsonlint) - Deshabilitar advertencias
+let g:ale_json_jsonlint_options = '--no-warnings'
