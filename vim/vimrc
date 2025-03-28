@@ -1,4 +1,5 @@
 call plug#begin('~/.vim/plugged')
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 " Plugin para cerrar automáticamente (), [], {}, '', ""
 Plug 'Raimondi/delimitMate'
 " Plugin para colorear paréntesis, corchetes y llaves por nivel
