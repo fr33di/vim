@@ -133,3 +133,13 @@ let g:ale_latex_chktex_options = '--no-chktex'
 
 " Para JSON (jsonlint) - Deshabilitar advertencias
 let g:ale_json_jsonlint_options = '--no-warnings'
+
+
+"para auto completado
+
+
+
+autocmd FileType html,css,json setlocal omnifunc=CocActionAsync
+inoremap <silent><expr> <CR> pumvisible() ? coc#_select_confirm() : "\<CR>"
+set updatetime=300
+
