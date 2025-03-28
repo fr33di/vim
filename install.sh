@@ -9,6 +9,4 @@ DEST="/data/data/com.termux/files/home"
 # Copiar vim a .vimrc
 cp  ./vim/vimrc "$DEST/.vimrc"
 
-
-
-
+./scripts/cocDepen.sh
