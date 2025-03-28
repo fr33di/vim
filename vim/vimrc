@@ -10,12 +10,11 @@ Plug 'dracula/vim', { 'as': 'dracula' }
 Plug 'arcticicestudio/nord-vim'
 Plug 'sickill/vim-monokai'
 Plug 'joshdick/onedark.vim'
-"para black
+" para black
 Plug 'psf/black', { 'branch': 'stable' }
 
-Plug 'dense-analysis/ale'
-
 call plug#end()
+
 " Configuración de esquemas de color
 set background=dark
 colorscheme nord
@@ -39,10 +38,8 @@ highlight CursorLine term=bold cterm=bold guibg=Grey40
 " Ejecutar Black al guardar archivos Python sin notificaciones
 autocmd BufWritePre *.py silent! execute ':silent! %!black -q -'
 
-
 " Configuración de rainbow
 let g:rainbow_active = 1
-
 
 " Configuración para archivos .txt
 autocmd BufNewFile,BufRead *.txt set syntax=txt
@@ -67,8 +64,6 @@ augroup txt_syntax
   autocmd Syntax txt syntax match TextEmail "\<[a-zA-Z0-9._%+-]\+@[a-zA-Z0-9.-]\+\.[a-zA-Z]\{2,}\>"
   autocmd Syntax txt highlight TextEmail ctermfg=magenta guifg=magenta
 augroup END
-
-
 
 set nobackup
 " No crear archivos de respaldo
@@ -97,50 +92,16 @@ set scrolljump=3
 set scrolloff=0
 " Cuántas líneas mantener visibles alrededor del cursor
 
+" Formateo
+command! Black execute '!black % > /dev/null 2>&1'
 
+autocmd BufWritePre *.js,*.css,*.html,*.json execute 'silent! write | call system("prettier --write " . shellescape(expand("%"))) | edit!'
 
-
-
-" Habilitar ALE para linting y formateo
-let g:ale_enabled = 1
-
-" Configuración para formateo automático al guardar
-let g:ale_fix_on_save = 1
-
-" Configurar formateadores con Prettier
-let g:ale_fixers = {
-\   'javascript': ['prettier'],
-\   'json': ['prettier'],
-\   'css': ['prettier'],
-\   'html': ['prettier'],
-\   'latex': ['prettier'],
-\}
-
-" Deshabilitar linters específicos si no los quieres ejecutar
-let g:ale_javascript_eslint_enabled = 0  " Deshabilitar ESLint para JavaScript
-let g:ale_python_pylint_enabled = 0     " Deshabilitar Pylint para Python
-let g:ale_latex_chktex_enabled = 0      " Deshabilitar CheckTeX para LaTeX
-let g:ale_json_jsonlint_enabled = 0     " Deshabilitar jsonlint para JSON
-
-" Configurar opciones para el linting, si las necesitas
-" Para JavaScript (ESLint) - Deshabilitar reglas específicas
-let g:ale_javascript_eslint_options = '--quiet --no-ignore --rule "no-const-assign: off" --rule "camelcase: off"'
-
-" Para Python (Pylint) - Deshabilitar advertencias
-let g:ale_python_pylint_options = '--disable=all --enable=fixme'
-
-" Para LaTeX (ChkTeX) - Deshabilitar advertencias de formato
-let g:ale_latex_chktex_options = '--no-chktex'
-
-" Para JSON (jsonlint) - Deshabilitar advertencias
-let g:ale_json_jsonlint_options = '--no-warnings'
-
-
-"para auto completado
-
-
-
+" Para auto completado
 autocmd FileType html,css,json setlocal omnifunc=CocActionAsync
 inoremap <silent><expr> <CR> pumvisible() ? coc#_select_confirm() : "\<CR>"
-set updatetime=300
+
+
+" Habilitar autocompletado para Python con Coc.nvim
+autocmd FileType python setlocal omnifunc=CocActionAsync
 
