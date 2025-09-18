@@ -12,6 +12,7 @@ Plug 'sickill/vim-monokai'
 Plug 'joshdick/onedark.vim'
 " para black
 Plug 'psf/black', { 'branch': 'stable' }
+Plug 'mattn/emmet-vim'
 
 call plug#end()
 
